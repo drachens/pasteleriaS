@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="estilo.css">
+	<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Raleway:ital,wght@1,300&family=Roboto+Condensed&display=swap" rel="stylesheet">
+</head>  
+<body>
+<div>
+<div class="Blogo">
+		<a href="index.php"><img class="logo" src="logo.png" height="60px"></a>
+		<h1 id="title">Pasteleria Piñufle</h1>
+		<ul id="registro-n">
+			<li><a href="registro.php?sol=ingreso">Ingeresar</a></li> |
+			<li><a href="registro.php?sol=registro">Registrarse</a></li>
+		</ul>
+</div>
+
+<nav id="menu" class="conteiner">
+		<ul>
+			<li><a href="categorias.php">Categorias</a>
+			<ul>
+				<?php
+					require '/home/ubuntu/vendor/autoload.php';
+					$uri="mongodb://localhost";
+					$client= new MongoDB\Client($uri);
+					$dbCategoriasHeader = $client->piñufle->Categorias->find();
+					$categorias = array(); 
+					foreach ($dbCategoriasHeader as $entryHeader) {
+						$catHeader[ $entryHeader['_id']->__toString() ] = $entryHeader['name'];
+					};
+					foreach ($catHeader as $keyHeader => $valueHeader) 
+						{			
+				?>
+						<li><a href="cat.php?keyI=<?php echo "$keyHeader" ?>"> <?php echo "$valueHeader"; ?> </a></li>
+				<?php
+						};
+				?>
+			</ul>
+			</li>	
+			<li><a href="menu_recetas.php">Recetas</a>
+			<ul>
+				<?php
+					require '/home/ubuntu/vendor/autoload.php';
+					$uri="mongodb://localhost";
+					$client= new MongoDB\Client($uri);
+					$dbRecetasHeader = $client->piñufle->Recetas->find();
+					$recetas = array();
+					foreach ($dbRecetasHeader as $entryRecetasHeader) {
+						$recetasHeader[$entryRecetasHeader['_id']->__toString()] = $entryRecetasHeader['name']; 
+					};
+					foreach ($recetasHeader as $key2Header => $value2Header) {
+				?>
+				<li><a href="rec.php?KeyR=<?php echo "$key2Header" ?> "><?php echo "$value2Header"; ?></a></li>
+				<?php
+					};
+				?>	
+			</ul>
+			</li>
+			<li><a href="promo.php">Promociones</a></li>
+			<li><a>Ofertas</a></li>
+			<li class="who"><a href="informacion.php">¿Quienes somos?</a></li>
+			<li><a>Contactanos</a></li>
+		</ul>	
+</nav>
+
+</div>
